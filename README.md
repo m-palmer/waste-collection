@@ -27,7 +27,7 @@ It is designed to run unattended on a Raspberry Pi Zero 2.
 
 ## Target Hardware
 
--   Raspberry Pi Zero 2\
+-   Raspberry Pi Zero 2
 -   Waveshare 2.13" Touch ePaper HAT (V4, TP_lib / epd2in13_V4)
 
 ------------------------------------------------------------------------
