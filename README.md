@@ -1,4 +1,4 @@
-# Waste Collection E Ink Display -- West Berkshire
+# Waste Collection E Ink Display - West Berkshire
 
 A Raspberry Pi project that answers one daily question:
 
@@ -73,19 +73,81 @@ If it says the wrong bin, the blame remains entirely yours.
 
 ------------------------------------------------------------------------
 
-## Automation
+## Installation
 
-Designed to run:
+Clone or copy this repository into your home directory so it lives at:
 
--   On boot
--   On a schedule via cron
--   Or via systemd service
+/home/<your-user>/waste-collection
+
+Then run:
+
+cd waste-collection
+sudo ./install.sh
+
+Important:
+You must run the installer using sudo from a normal user account (not as root directly).
+This ensures cron jobs, Playwright, and browser files are installed for the correct user.
+
+After installation, reboot:
+
+sudo reboot
+
+Before the first run, open main.py and set your postcode and address:
+
+nano main.py
+
+Look for variables such as POSTCODE and ADDRESS_VALUE.
+
+------------------------------------------------------------------------
+
+## What the Installer Does
+
+The install.sh script configures the system so the display can run unattended:
+-   Enables SPI and I2C for the e-ink display
+-   Forces console-only boot (no desktop GUI)
+-   Installs system and Python dependencies
+-   Installs Playwright and Chromium correctly for the target user
+-   Ensures cron is enabled and running
+-   Installs scheduled cron jobs and a boot job for run.sh
+-   Fixes line endings and permissions on run.sh
+-   Ensures files are owned by the correct user
+-   Logs all output to /var/log/waste-collection-install.log
+
+It does not clone the repository for you.
+You are expected to place the project in your home directory first.
+
+After installation, the script will run automatically:
+-   On boot 
+-   Multiple times per day via cron: 00:01 / 06:00 / 09:00 / 12:00 / 15:00 / 18:00
+
+This keeps the display up to date without manual intervention or human supervision.
+
+------------------------------------------------------------------------
+
+## Installer Warning
+
+When running install.sh over an SSH session, the connection may occasionally hang during
+the Playwright Chromium installation step.
+
+This is a known behaviour on some Raspberry Pi OS builds and is not usually a failure of
+the script itself.
+
+If the SSH session freezes:
+
+-   Close the SSH connection
+-   Reconnect to the Pi
+-   Re-run: sudo ./install.sh
+
+The installer is safe to run multiple times.
+
+When run directly on the Pi’s local console, the installer is typically stable.
+
+In short: if SSH freezes, just run it again.
 
 ------------------------------------------------------------------------
 
 ## Disclaimer
 
 This software provides information only.
-It does not guarantee bin correctness, council compliance, or domestic
-harmony.
+It does not guarantee bin correctness, council compliance, or domestic harmony.
 
