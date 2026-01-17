@@ -2,13 +2,14 @@
 
 A Raspberry Pi project that answers a weekly question:
 
-Which bin do I put out tonight?
+    Which bin do I put out tonight?
 
 This script scrapes West Berkshire Council's bin collection website,
-converts the rotating and holiday-adjusted schedule into human-readable
+converts the rotating and holiday-adjusting schedule into human-readable
 output, and displays it on a Waveshare 2.13" e-ink screen.
 
-It is designed to run unattended on a Raspberry Pi Zero 2.
+It is designed to run unattended on a Raspberry Pi Zero 2 with Waveshare
+2.13" Touch ePaper HAT.
 
 ------------------------------------------------------------------------
 
@@ -36,7 +37,6 @@ It is designed to run unattended on a Raspberry Pi Zero 2.
 
 -   A guaranteed source of truth
 -   A replacement for common sense
--   A legally binding waste authority
 
 ------------------------------------------------------------------------
 
@@ -107,17 +107,17 @@ The install.sh script configures the system so the display can run unattended:
 -   Sets the system hostname to waste-collection
 -   Updates /etc/hosts safely
 -   Installs system and Python dependencies
--   Installs Playwright and Chromium
+-   Installs Playwright and Chromium (Chromium is installed for the target non-root user)
+-   Enables cron and installs scheduled jobs for run.sh
 -   Disables optional background services to reduce resource usage
 -   Removes unused default home folders only if they are empty
--   Logs all output to: waste-collection-install.log
+-   Logs all output to waste-collection-install.log (in the same folder as install.sh)
+  
+It does not clone the repository for you. You are expected to place the project in your home directory first.
 
-It does not clone the repository for you.
-You are expected to place the project in your home directory first.
-
-After installation, the script will run automatically:
--   On boot 
--   Multiple times per day via cron: 00:01 / 06:00 / 09:00 / 12:00 / 15:00 / 18:00
+After installation, the script will run automatically via cron:
+-   On boot (@reboot)
+-   Multiple times per day: 00:01 / 06:00 / 09:00 / 12:00 / 15:00 / 18:00
 
 This keeps the display up to date without manual intervention or human supervision.
 
