@@ -47,11 +47,16 @@ ResultType = Union[str, Dict[str, str]]
 def scrape_url_get_html(url: str, postcode: str, address_value: str, ) -> ResultType:
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=True, args=[
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--no-sandbox",
+                "--disable-software-rasterizer",
+            ])
             context = browser.new_context()
             page = context.new_page()
 
-            page.goto(url, wait_until="domcontentloaded")
+            page.goto(url, wait_until="domcontentloaded", timeout=60000)
 
             page.locator("#FINDYOURBINDAYS3WEEKLY_ADDRESSLOOKUPPOSTCODE").fill(postcode)
             page.locator("#FINDYOURBINDAYS3WEEKLY_ADDRESSLOOKUPSEARCH").click()
@@ -80,3 +85,4 @@ def scrape_url_get_html(url: str, postcode: str, address_value: str, ) -> Result
     except Exception as e:
         print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: {e}")
         return {"Error": "Unknown"}
+
