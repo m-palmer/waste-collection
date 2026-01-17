@@ -1,6 +1,6 @@
 # Waste Collection E Ink Display - West Berkshire
 
-A Raspberry Pi project that answers one daily question:
+A Raspberry Pi project that answers a weekly question:
 
 Which bin do I put out tonight?
 
@@ -38,8 +38,6 @@ It is designed to run unattended on a Raspberry Pi Zero 2.
 -   A replacement for common sense
 -   A legally binding waste authority
 
-If it says the wrong bin, the blame remains entirely yours.
-
 ------------------------------------------------------------------------
 
 ## Known Failure Modes
@@ -47,8 +45,7 @@ If it says the wrong bin, the blame remains entirely yours.
 -   Council website layout changes
 -   No internet
 -   Python environment issues
--   Display driver issues
--   Bugs escaping into production like startled spiders
+-   The Raspberry Pi running out of memory
 
 ------------------------------------------------------------------------
 
@@ -57,7 +54,7 @@ If it says the wrong bin, the blame remains entirely yours.
 1.  Scrapes the council website using Playwright
 2.  Parses and reformats the collection dates
 3.  Outputs to terminal and e-ink display
-4.  Sleeps peacefully until the next run
+4.  Sleeps until the next run
 
 ------------------------------------------------------------------------
 
@@ -77,24 +74,26 @@ If it says the wrong bin, the blame remains entirely yours.
 
 Clone or copy this repository into your home directory so it lives at:
 
-/home/<your-user>/waste-collection
+    /home/<your-user>/waste-collection
 
 Then run:
 
-cd waste-collection
-sudo ./install.sh
+    cd waste-collection
+    sudo ./install.sh
 
-Important:
-You must run the installer using sudo from a normal user account (not as root directly).
-This ensures cron jobs, Playwright, and browser files are installed for the correct user.
+Important: You must run the installer using sudo from a normal user account (not as root directly).
+
+When the installer starts, it will display a summary of all changes it will make and
+will require you to enter "Yes" before any changes are applied.If anything else is entered, the 
+installer exits without modifying the system.
 
 After installation, reboot:
 
-sudo reboot
+    sudo reboot
 
 Before the first run, open main.py and set your postcode and address:
 
-nano main.py
+    nano main.py
 
 Look for variables such as POSTCODE and ADDRESS_VALUE.
 
@@ -105,13 +104,13 @@ Look for variables such as POSTCODE and ADDRESS_VALUE.
 The install.sh script configures the system so the display can run unattended:
 -   Enables SPI and I2C for the e-ink display
 -   Forces console-only boot (no desktop GUI)
+-   Sets the system hostname to waste-collection
+-   Updates /etc/hosts safely
 -   Installs system and Python dependencies
--   Installs Playwright and Chromium correctly for the target user
--   Ensures cron is enabled and running
--   Installs scheduled cron jobs and a boot job for run.sh
--   Fixes line endings and permissions on run.sh
--   Ensures files are owned by the correct user
--   Logs all output to /var/log/waste-collection-install.log
+-   Installs Playwright and Chromium
+-   Disables optional background services to reduce resource usage
+-   Removes unused default home folders only if they are empty
+-   Logs all output to: waste-collection-install.log
 
 It does not clone the repository for you.
 You are expected to place the project in your home directory first.
