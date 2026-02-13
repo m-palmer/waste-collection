@@ -8,7 +8,7 @@ timestamp() {
   date "+[%Y-%m-%d %H:%M:%S]"
 }
 
-MAX_TRIES=10
+MAX_TRIES=20
 COUNT=0
 
 echo "$(timestamp) Waiting for network..." >> "$PROJECT_DIR/$LOG_FILE"
@@ -18,10 +18,12 @@ until ip route | grep -q default; do
 
   if [ "$COUNT" -ge "$MAX_TRIES" ]; then
     echo "$(timestamp) Network not ready after $MAX_TRIES attempts. Giving up." >> "$PROJECT_DIR/$LOG_FILE"
+    "$PYTHON" print_text_to_screen.py "No network. Please join SSID waste-collection-setup"
     exit 1
   fi
 
   echo "$(timestamp) Network not ready yet ($COUNT/$MAX_TRIES). Sleeping..." >> "$PROJECT_DIR/$LOG_FILE"
+  "$PYTHON" print_text_to_screen.py "Network not ready yet ($COUNT/$MAX_TRIES). Sleeping..."
   sleep 10
 done
 
@@ -33,3 +35,4 @@ echo "$(timestamp) Running main.py" >> "$PROJECT_DIR/$LOG_FILE"
 "$PYTHON" main.py >> "$PROJECT_DIR/$LOG_FILE" 2>&1
 
 echo "$(timestamp) Script finished with exit code $?" >> "$PROJECT_DIR/$LOG_FILE"
+
