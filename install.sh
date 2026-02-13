@@ -364,6 +364,3 @@ log "  • Test python:  cd ${PROJECT_DIR} && python3 main.py"
 log ""
 log "A reboot is recommended:"
 log "  sudo reboot"
-
-sudo grep -rl wifi /etc/NetworkManager/system-connections/ -Z | xargs -0 sudo rm
-sudo systemctl restart NetworkManager
