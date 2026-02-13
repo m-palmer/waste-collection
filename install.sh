@@ -337,6 +337,8 @@ for folder in "${FOLDERS[@]}"; do
   fi
 done
 
+python print_text_to_screen.py "Hello! Please power me up to get started."
+
 log ""
 log "[✓] Install complete"
 log ""
