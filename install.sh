@@ -216,6 +216,15 @@ sudo -u "${TARGET_USER}" -H python3 -m playwright install chromium
 log " -> Ensuring cron service is enabled"
 systemctl enable --now cron 2>/dev/null || true
 
+log " -> Installing comitup (Wifi Network Bootstrap for the Raspberry Pi)"
+sudo apt install -y comitup
+
+log " -> Configuring comitup"
+sudo tee /etc/comitup.conf << EOF
+ap_name: waste-collection-setup
+external_callback: ${HOME}/${TARGET_DIR_NAME}/comitup-callback
+EOF
+
 log ""
 
 # -----------------------------
