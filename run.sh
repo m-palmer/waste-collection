@@ -19,12 +19,12 @@ until ip route | grep -q default; do
   if [ "$COUNT" -ge "$MAX_TRIES" ]; then
     echo "$(timestamp) Network not ready after $MAX_TRIES attempts. Giving up." >> "$PROJECT_DIR/$LOG_FILE"
     sudo systemctl start comitup
-    "$PYTHON" print_text_to_screen.py "No network. Please join SSID waste-collection-setup"
+    "$PYTHON" print_text_to_screen.py "Please Connect To My WIFI Hotspot"
     exit 1
   fi
 
   echo "$(timestamp) Network not ready yet ($COUNT/$MAX_TRIES). Sleeping..." >> "$PROJECT_DIR/$LOG_FILE"
-  "$PYTHON" print_text_to_screen.py "Network not ready yet ($COUNT/$MAX_TRIES). Sleeping..."
+  "$PYTHON" print_text_to_screen.py "Searching For Network"
   sleep 10
 done
 
@@ -36,5 +36,6 @@ echo "$(timestamp) Running main.py" >> "$PROJECT_DIR/$LOG_FILE"
 "$PYTHON" main.py >> "$PROJECT_DIR/$LOG_FILE" 2>&1
 
 echo "$(timestamp) Script finished with exit code $?" >> "$PROJECT_DIR/$LOG_FILE"
+
 
 
