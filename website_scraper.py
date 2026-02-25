@@ -22,7 +22,7 @@ Process:
 
 Returns:
 - str : HTML content on success.
-- dict: {"error": "..."} if any step fails or times out.
+- dict: {"Error": "..."} if any step fails or times out.
 
 Example HTML:
 <div class="rubbish_date_wrap">     <div class="rubbish_date_container">         <div class="rubbish_date_container_left rubbish_collection_difs_black" style="">             Your next rubbish collection day is             <br>             <div class="rubbish_date_container_left_datetext">Friday 23 January</div>         </div>         <div class="rubbish_date_container_right rubbish_date_container_right_black">             Collection calendar <b>5</b>             <div class="rubbish_date_schedule_desc" style="padding: 15px 25px;">                 <span style="font-size: 22px!important; font-weight: normal;"> Friday every 3 weeks </span>                 <a href="https://www.westberks.gov.uk/media/64437/3-weekly-week-5-calendar/pdf/16320__Calendar_Schedule_5_AW_LR.pdf" target="_blank" title="Download 3 week collection calendar 5" class="media-link media-link--pdf">
@@ -79,10 +79,10 @@ def scrape_url_get_html(url: str, postcode: str, address_value: str, ) -> Result
             return html
 
     except PlaywrightTimeoutError as e:
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: {e}")
+        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: {e}")
         return {"Error": "Browser"}
 
     except Exception as e:
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: {e}")
+        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: {e}")
         return {"Error": "Unknown"}
 

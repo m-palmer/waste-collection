@@ -73,8 +73,8 @@ Returns:
 - dict with formatted collection dates on success.
   Example: {"Rubbish": "Tuesday, 6th JAN", "Recycling": "Tuesday, 6th JAN", "Food": "Tuesday, 6th JAN"}
   
-- If parsing fails or expected elements are not found, return an error dic
-- Example: {"error": "Exception"}
+- If parsing fails or expected elements are not found, return an error dict
+- Example: {"Error": "Exception"}
 """
 def parse_to_json(html: str) -> dict:
     """
@@ -92,10 +92,10 @@ def parse_to_json(html: str) -> dict:
 
         blocks = soup.select(".rubbish_date_wrap")
         if not blocks:
-            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: No blocks found with selector '.rubbish_date_wrap'.")
-            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: --- HTML START ---")
+            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: No blocks found with selector '.rubbish_date_wrap'.")
+            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: --- HTML START ---")
             print(html[:5000])
-            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: --- HTML END ---")
+            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: --- HTML END ---")
             
             return {"Error": "Invalid HTML"}
 
@@ -119,9 +119,9 @@ def parse_to_json(html: str) -> dict:
         if not result:
             
             print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: Found containers, but mapping failed.")
-            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: --- HTML START ---")
+            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: --- HTML START ---")
             print(html[:5000])
-            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: --- HTML END ---")
+            print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: --- HTML END ---")
             for i, block in enumerate(blocks):
                 # Print the classes found on the header to see why mapping failed
                 header = block.select_one("[class*=rubbish_collection_difs_]")
@@ -133,8 +133,8 @@ def parse_to_json(html: str) -> dict:
         return result
 
     except Exception as e:
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: {e}")
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: --- HTML START ---")
+        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: {e}")
+        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: --- HTML START ---")
         print(html[:5000])
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: --- HTML END ---")
+        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: --- HTML END ---")
         return {"Error": "Exception"}

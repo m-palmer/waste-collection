@@ -101,5 +101,5 @@ def beautify(input_data) -> dict:
         return output
 
     except Exception as e:
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] Debug: {e}")
+        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: {e}")
         return original_input

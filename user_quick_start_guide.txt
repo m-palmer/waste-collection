@@ -1,0 +1,39 @@
+Waste Collection Display – Quick Start
+
+1. Power it up
+- Plug the power cable into the micro-USB power port
+It will turn on automatically.
+
+2. Connect it to Wi-Fi
+Everything is already installed and configured for your address.
+- It just needs internet:
+- After a minute, the e-ink screen will show: SSID: waste-collection-setup
+- On your phone or laptop, connect to the Wi-Fi network called waste-collection-setup
+- A setup page will appear — select your home Wi-Fi network and enter the password
+- The device will reboot itself and start working
+
+3. After that
+From now on:
+- You only need to give it power
+- It checks for new collection dates several times a day
+- It will quietly keep itself updated
+
+
+Code (if curiosity strikes)
+
+The python project/code lives here:
+https://github.com/m-palmer/waste-collection/
+
+You do not need to look at it.
+
+
+Raspberry Pi Password
+
+On the back of the unit.
+
+
+Final disclaimer
+
+If it tells you the wrong bin...
+
+I accept no responsibility, only mild sympathy :-)

@@ -65,7 +65,7 @@ try:
     epd2in13_V4 = _epd2in13_V4
     EPD_AVAILABLE = True
 except Exception as e:
-    print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: Waveshare import failed: {type(e).__name__}: {e}")
+    print(f"[{datetime.datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: Waveshare import failed: {type(e).__name__}: {e}")
     EPD_AVAILABLE = False
     epd2in13_V4 = None
 
@@ -173,8 +173,25 @@ def show_result(
 
     pc = postcode.strip().upper() if postcode else "N/A"
     ip = _get_local_ip()
-    updated_str = updated.strftime("%d %b     %H:%M")
-    footer = f"{version}     {ip}     {pc}     {updated_str}"
+    date_str = updated.strftime("%d %b")
+    time_str = updated.strftime("%H:%M")
+
+    # Build footer padded to 50 chars with equal gaps between the 5 parts.
+    # Any remainder that doesn't divide evenly goes between date and time.
+    max_footer_chars = 50
+    parts = [version, ip, pc, date_str, time_str]
+    content_len = sum(len(p) for p in parts)
+    remaining = max_footer_chars - content_len
+
+    if remaining >= 4:
+        gap = remaining // 4
+        extra = remaining % 4
+        gaps = [" " * gap] * 3 + [" " * (gap + extra)]
+    else:
+        gaps = [" "] * 4
+
+    footer = (parts[0] + gaps[0] + parts[1] + gaps[1]
+              + parts[2] + gaps[2] + parts[3] + gaps[3] + parts[4])
 
     # ---------- Terminal output ----------
 
@@ -205,7 +222,7 @@ def show_result(
     print("\n" + footer + "\n")
 
     if not EPD_AVAILABLE or epd2in13_V4 is None:
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: EPD_AVAILABLE={EPD_AVAILABLE}, epd2in13_V4 is None? {epd2in13_V4 is None}")
+        print(f"[{datetime.datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: EPD_AVAILABLE={EPD_AVAILABLE}, epd2in13_V4 is None? {epd2in13_V4 is None}")
         return
 
     # ---------- ePaper rendering ----------
@@ -221,13 +238,13 @@ def show_result(
     # Body rows
     if not is_error and isinstance(result, dict):
         rows = [
-            ("Rubbish:", result.get("Rubbish") or result.get("rubbish") or "-"),
-            ("Recycling:", result.get("Recycling") or result.get("recycling") or "-"),
-            ("Food:", result.get("Food") or result.get("food") or "-"),
+            ("   Rubbish:", result.get("Rubbish") or result.get("rubbish") or "-"),
+            ("   Recycling:", result.get("Recycling") or result.get("recycling") or "-"),
+            ("   Food:", result.get("Food") or result.get("food") or "-"),
         ]
     else:
         rows = [
-            ("Error:", error_text or "No data"),
+            ("   Error:", error_text or "No data"),
             ("", ""),
             ("", ""),
         ]
@@ -281,7 +298,7 @@ def show_result(
         epd.sleep()
 
     except Exception as e:
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: ePaper update failed:", repr(e))
+        print(f"[{datetime.datetime.now():%Y-%m-%d %H:%M:%S}] DEBUG: ePaper update failed: {repr(e)}")
 
 
 @atexit.register
